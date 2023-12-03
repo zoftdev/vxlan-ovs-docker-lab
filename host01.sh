@@ -18,7 +18,7 @@ sudo ovs-vsctl show
 
 # set the ip to the created port/interfaces
 sudo ip address add 192.168.1.1/24 dev veth0 
-sudo ip address add 192.168.2.1/24 dev veth1 
+sudo ip address add 192.168.4.1/24 dev veth1 
 ip a
 
 # up the interfaces and check status
@@ -44,12 +44,12 @@ sudo docker exec docker2 ip a
 sudo ovs-docker add-port ovs-br0 eth0 docker1 --ipaddress=192.168.1.11/24 --gateway=192.168.1.1
 sudo docker exec docker1 ip a
 
-sudo ovs-docker add-port ovs-br1 eth0 docker2 --ipaddress=192.168.2.11/24 --gateway=192.168.2.1
+sudo ovs-docker add-port ovs-br1 eth0 docker2 --ipaddress=192.168.4.11/24 --gateway=192.168.4.1
 sudo docker exec docker2 ip a
 
 # ping the gateway to check if container connected to ovs-bridges
 sudo docker exec docker1 ping 192.168.1.1
-sudo docker exec docker2 ping 192.168.2.1
+sudo docker exec docker2 ping 192.168.4.1
 
 
 # Step-03
@@ -77,13 +77,13 @@ sudo docker exec docker1 ping 192.168.1.12
 sudo docker exec docker1 ping 192.168.1.11
 
 # will be failed
-sudo docker exec docker1 ping 192.168.2.11
-sudo docker exec docker1 ping 192.168.2.12
+sudo docker exec docker1 ping 192.168.4.11
+sudo docker exec docker1 ping 192.168.4.12
 
 # FROM docker2
 # will get ping 
-sudo docker exec docker2 ping 192.168.2.11
-sudo docker exec docker2 ping 192.168.2.12
+sudo docker exec docker2 ping 192.168.4.11
+sudo docker exec docker2 ping 192.168.4.12
 
 # will be failed
 sudo docker exec docker2 ping 192.168.1.11

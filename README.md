@@ -88,7 +88,7 @@ sudo ovs-vsctl show
 
 # set the ip to the created port/interfaces
 sudo ip address add 192.168.1.1/24 dev veth0 
-sudo ip address add 192.168.2.1/24 dev veth1
+sudo ip address add 192.168.4.1/24 dev veth1
 
 # Check the status, link should be down
 ip a
@@ -141,12 +141,12 @@ sudo docker exec docker4 ip a
 sudo ovs-docker add-port ovs-br0 eth0 docker1 --ipaddress=192.168.1.11/24 --gateway=192.168.1.1
 sudo docker exec docker1 ip a
 
-sudo ovs-docker add-port ovs-br1 eth0 docker2 --ipaddress=192.168.2.11/24 --gateway=192.168.2.1
+sudo ovs-docker add-port ovs-br1 eth0 docker2 --ipaddress=192.168.4.11/24 --gateway=192.168.4.1
 sudo docker exec docker2 ip a
 
 # ping the gateway to check if container connected to ovs-bridges
 sudo docker exec docker1 ping 192.168.1.1
-sudo docker exec docker2 ping 192.168.2.1
+sudo docker exec docker2 ping 192.168.4.1
 ```
 
 ```bash
@@ -155,12 +155,12 @@ sudo docker exec docker2 ping 192.168.2.1
 sudo ovs-docker add-port ovs-br0 eth0 docker3 --ipaddress=192.168.1.11/24 --gateway=192.168.1.1
 sudo docker exec docker3 ip a
 
-sudo ovs-docker add-port ovs-br1 eth0 docker4 --ipaddress=192.168.2.11/24 --gateway=192.168.2.1
+sudo ovs-docker add-port ovs-br1 eth0 docker4 --ipaddress=192.168.4.11/24 --gateway=192.168.4.1
 sudo docker exec docker4 ip a
 
 # ping the gateway to check if container connected to ovs-bridges
 sudo docker exec docker3 ping 192.168.1.1
-sudo docker exec docker4 ping 192.168.2.1
+sudo docker exec docker4 ping 192.168.4.1
 ```
 
 **Step 3: Now we are going to establish the VXLAN TUNNELING between the two VM. Most importantly the vxlan ID or VNI and udp port 4789 is important. Also we have to configure the remote IP which is opposite VM IP.**
@@ -212,13 +212,13 @@ sudo docker exec docker1 ping 192.168.1.12
 sudo docker exec docker1 ping 192.168.1.11
 
 # will be failed
-sudo docker exec docker1 ping 192.168.2.11
-sudo docker exec docker1 ping 192.168.2.12
+sudo docker exec docker1 ping 192.168.4.11
+sudo docker exec docker1 ping 192.168.4.12
 
 # FROM docker2
 # will get ping 
-sudo docker exec docker2 ping 192.168.2.11
-sudo docker exec docker2 ping 192.168.2.12
+sudo docker exec docker2 ping 192.168.4.11
+sudo docker exec docker2 ping 192.168.4.12
 
 # will be failed
 sudo docker exec docker2 ping 192.168.1.11
@@ -266,7 +266,7 @@ sudo iptables -t nat -L -n -v
 
 sudo iptables --append FORWARD --in-interface veth1 --jump ACCEPT
 sudo iptables --append FORWARD --out-interface veth1 --jump ACCEPT
-sudo iptables --table nat --append POSTROUTING --source 192.168.2.0/24 --jump MASQUERADE
+sudo iptables --table nat --append POSTROUTING --source 192.168.4.0/24 --jump MASQUERADE
 
 # ping the outer world now, should be working now
 ping 1.1.1.1 -c 2
