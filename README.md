@@ -171,11 +171,11 @@ netstat -ntulp
 
 # Create the vxlan tunnel using ovs vxlan feature for both bridges to another hosts bridges
 # make sure remote IP and key options; they are important
-sudo ovs-vsctl add-port ovs-br0 vxlan0 -- set interface vxlan0 type=vxlan options:remote_ip=10.0.1.169 options:key=1000
+sudo ovs-vsctl add-port ovs-br0 vxlan0 -- set interface vxlan0 type=vxlan options:remote_ip=192.168.2.236 options:key=1000
 # key is VNI
 # vxlan0 is the interface/port name
 # type is vxlan which also configures udp port 4789 default
-sudo ovs-vsctl add-port ovs-br1 vxlan1 -- set interface vxlan1 type=vxlan options:remote_ip=10.0.1.169 options:key=2000
+sudo ovs-vsctl add-port ovs-br1 vxlan1 -- set interface vxlan1 type=vxlan options:remote_ip=192.168.2.236 options:key=2000
 
 # check the port again; it should be listening
 netstat -ntulp | grep 4789
@@ -191,8 +191,8 @@ netstat -ntulp
 
 # Create the vxlan tunnel using ovs vxlan feature for both bridges to another hosts bridges
 # make sure remote IP and key options; they are important
-sudo ovs-vsctl add-port ovs-br0 vxlan0 -- set interface vxlan0 type=vxlan options:remote_ip=10.0.1.43 options:key=1000
-sudo ovs-vsctl add-port ovs-br1 vxlan1 -- set interface vxlan1 type=vxlan options:remote_ip=10.0.1.43 options:key=2000
+sudo ovs-vsctl add-port ovs-br0 vxlan0 -- set interface vxlan0 type=vxlan options:remote_ip=192.168.2.234 options:key=1000
+sudo ovs-vsctl add-port ovs-br1 vxlan1 -- set interface vxlan1 type=vxlan options:remote_ip=192.168.2.234 options:key=2000
 
 # check the port again; it should be listening
 netstat -ntulp | grep 4789
